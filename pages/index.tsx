@@ -3,7 +3,9 @@ import Link from 'next/link'
 import Layout, { siteTitle } from "../components/layout";
 import utilStyles from "../styles/utils.module.css";
 import Date from "../components/date";
-import { getSortedPostsData } from "../lib/posts";
+import { getSortedPostsMetaData } from "../lib/posts";
+import { GetStaticProps, GetStaticPaths, GetServerSideProps } from 'next'
+
 
 export default function Home({ allPostsData }) {
   return (
@@ -26,7 +28,7 @@ export default function Home({ allPostsData }) {
               <Link href="/posts/[id" as={`/posts/${id}`}>
                 <a>{title}</a>
               </Link>
-              <bc />
+              <br />
               <small className={utilStyles.lightText}>
                 <Date dateString={date} />
               </small>
@@ -38,11 +40,11 @@ export default function Home({ allPostsData }) {
   );
 }
 
-export async function getStaticProps() {
-  const allPostsData = getSortedPostsData();
+export const getStaticProps: GetStaticProps = async () => {
+  const allPostsData = getSortedPostsMetaData();
   return {
     props: {
       allPostsData,
     },
   };
-}
+};
